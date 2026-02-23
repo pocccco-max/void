@@ -1,0 +1,18 @@
+# System
+.DS_Store
+Thumbs.db
+*.log
+
+# Node (if anyone adds deps)
+node_modules/
+npm-debug.log
+
+# Python
+__pycache__/
+*.pyc
+generate_icons.py
+
+# IDE
+.vscode/
+.idea/
+*.swp

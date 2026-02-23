@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nebula">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="void — Next-gen AI chat powered by Groq" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="void" />
+  <meta name="application-name" content="void" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <title>void — AI Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ONBOARDING SCREEN -->
+<div id="onboarding" class="screen active">
+  <div class="onboard-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="onboard-content">
+    <div class="logo-hero">
+      <div class="logo-ring-wrap">
+        <svg id="logoSvg" class="logo-svg" width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="heroBg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#1a1830"/>
+              <stop offset="65%" stop-color="#0d0d1c"/>
+              <stop offset="100%" stop-color="#08080f"/>
+            </radialGradient>
+            <radialGradient id="heroAtmo" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#7c6fff" stop-opacity="0.28"/>
+              <stop offset="60%" stop-color="#7c6fff" stop-opacity="0.06"/>
+              <stop offset="100%" stop-color="#7c6fff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="heroAtmo2" cx="58%" cy="60%" r="45%">
+              <stop offset="0%" stop-color="#bf7fff" stop-opacity="0.20"/>
+              <stop offset="100%" stop-color="#bf7fff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="tipBloom" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+              <stop offset="35%" stop-color="#c8b8ff" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#7c6fff" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="heroVGrad" x1="10%" y1="0%" x2="90%" y2="100%">
+              <stop offset="0%" stop-color="#f5f0ff"/>
+              <stop offset="45%" stop-color="#c8b8ff"/>
+              <stop offset="100%" stop-color="#bf7fff"/>
+            </linearGradient>
+            <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7c6fff" stop-opacity="0.9"/>
+              <stop offset="50%" stop-color="#bf7fff" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#7c6fff" stop-opacity="0.05"/>
+            </linearGradient>
+            <filter id="bigBloom" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="8" result="b1"/>
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b2"/>
+              <feMerge><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="midBloom" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="tipFilter" x="-300%" y="-300%" width="700%" height="700%">
+              <feGaussianBlur stdDeviation="9" result="b1"/>
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b2"/>
+              <feMerge><feMergeNode in="b1"/><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Base disc -->
+          <circle cx="80" cy="80" r="78" fill="url(#heroBg)"/>
+          <!-- Atmospheric fills -->
+          <circle cx="80" cy="80" r="78" fill="url(#heroAtmo)"/>
+          <circle cx="80" cy="80" r="78" fill="url(#heroAtmo2)"/>
+
+          <!-- Outer dashed orbit ring (slow spin via CSS) -->
+          <circle cx="80" cy="80" r="74" stroke="url(#ringGrad1)" stroke-width="0.7" stroke-dasharray="5 10" opacity="0.45" class="spin-cw"/>
+          <!-- Inner dashed orbit (counter spin) -->
+          <circle cx="80" cy="80" r="46" stroke="#bf7fff" stroke-width="0.6" stroke-dasharray="3 14" opacity="0.40" class="spin-ccw"/>
+
+          <!-- Concentric solid rings — portal effect -->
+          <circle cx="80" cy="80" r="70" stroke="#7c6fff" stroke-width="0.4" opacity="0.15"/>
+          <circle cx="80" cy="80" r="64" stroke="#7c6fff" stroke-width="0.6" opacity="0.25"/>
+          <circle cx="80" cy="80" r="58" stroke="#7c6fff" stroke-width="0.8" opacity="0.35"/>
+          <circle cx="80" cy="80" r="52" stroke="#7c6fff" stroke-width="1.0" opacity="0.48"/>
+          <circle cx="80" cy="80" r="46" stroke="#7c6fff" stroke-width="1.1" opacity="0.55"/>
+          <circle cx="80" cy="80" r="40" stroke="#7c6fff" stroke-width="0.9" opacity="0.42"/>
+          <circle cx="80" cy="80" r="34" stroke="#8a78ff" stroke-width="0.7" opacity="0.30"/>
+          <circle cx="80" cy="80" r="28" stroke="#9f8fff" stroke-width="0.6" opacity="0.20"/>
+          <circle cx="80" cy="80" r="22" stroke="#bf7fff" stroke-width="0.5" opacity="0.15"/>
+
+          <!-- V — massive bloom -->
+          <g filter="url(#bigBloom)" opacity="0.45">
+            <line x1="44" y1="52" x2="80" y2="102" stroke="#7c6fff" stroke-width="12" stroke-linecap="round"/>
+            <line x1="116" y1="52" x2="80" y2="102" stroke="#7c6fff" stroke-width="12" stroke-linecap="round"/>
+          </g>
+          <!-- V — medium glow -->
+          <g filter="url(#midBloom)" opacity="0.75">
+            <line x1="44" y1="52" x2="80" y2="102" stroke="#a899ff" stroke-width="5" stroke-linecap="round"/>
+            <line x1="116" y1="52" x2="80" y2="102" stroke="#a899ff" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <!-- V — crisp top layer -->
+          <line x1="44" y1="52" x2="80" y2="102" stroke="url(#heroVGrad)" stroke-width="3.2" stroke-linecap="round"/>
+          <line x1="116" y1="52" x2="80" y2="102" stroke="url(#heroVGrad)" stroke-width="3.2" stroke-linecap="round"/>
+
+          <!-- Tip — big starburst bloom -->
+          <circle cx="80" cy="102" r="18" fill="url(#tipBloom)" filter="url(#tipFilter)" opacity="0.6"/>
+          <!-- Tip — bright core -->
+          <circle cx="80" cy="102" r="5" fill="white" opacity="0.9"/>
+          <circle cx="80" cy="102" r="3" fill="#f0ecff"/>
+
+          <!-- Arm tips — halos + dots -->
+          <circle cx="44" cy="52" r="10" fill="#7c6fff" opacity="0.12" filter="url(#midBloom)"/>
+          <circle cx="44" cy="52" r="3.5" fill="#d8cfff" opacity="0.95"/>
+          <circle cx="116" cy="52" r="10" fill="#7c6fff" opacity="0.12" filter="url(#midBloom)"/>
+          <circle cx="116" cy="52" r="3.5" fill="#d8cfff" opacity="0.95"/>
+
+          <!-- Outer rim -->
+          <circle cx="80" cy="80" r="77.5" stroke="#7c6fff" stroke-width="0.5" opacity="0.22"/>
+        </svg>
+      </div>
+
+      <div class="brand-lockup">
+        <h1 class="brand-title">void</h1>
+        <div class="brand-rule">
+          <span class="rule-line"></span>
+          <span class="rule-dot"></span>
+          <span class="rule-line"></span>
+        </div>
+      </div>
+    </div>
+    <p class="brand-subtitle">Intelligent conversation, reimagined</p>
+
+    <div class="onboard-card">
+      <h2>Connect your API Keys</h2>
+      <p class="hint-text">void uses Groq for blazing-fast inference. Add multiple keys for automatic rotation on rate limits.</p>
+
+      <div class="key-input-group" id="keyInputs">
+        <div class="key-row">
+          <div class="input-wrapper">
+            <span class="key-icon">⚡</span>
+            <input type="password" placeholder="gsk_..." class="api-key-input" autocomplete="off" spellcheck="false" />
+            <button class="toggle-visibility" tabindex="-1" title="Show/Hide">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <button class="remove-key-btn hidden" title="Remove">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="add-key-btn" id="addKeyBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add another key
+      </button>
+
+      <div class="model-select-wrap">
+        <label>Default Model</label>
+        <select id="modelSelect" class="model-select">
+          <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile</option>
+          <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant ⚡</option>
+          <option value="llama3-70b-8192">Llama 3 70B</option>
+          <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+          <option value="gemma2-9b-it">Gemma 2 9B</option>
+          <option value="llama-3.2-11b-vision-preview">Llama 3.2 11B Vision 👁️</option>
+          <option value="llama-3.2-90b-vision-preview">Llama 3.2 90B Vision 👁️</option>
+        </select>
+      </div>
+
+      <button class="cta-btn" id="startBtn">
+        <span>Enter void</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <p class="privacy-note">Keys stored locally. Never sent anywhere except Groq.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="screen">
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="26" height="26" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="sbBg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#141425"/><stop offset="100%" stop-color="#08080f"/>
+            </radialGradient>
+            <filter id="sbGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="sbV" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d4ccff"/><stop offset="100%" stop-color="#bf7fff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="40" cy="40" r="39" fill="url(#sbBg)"/>
+          <circle cx="40" cy="40" r="35" stroke="#7c6fff" stroke-width="0.8" opacity="0.3"/>
+          <circle cx="40" cy="40" r="29" stroke="#7c6fff" stroke-width="0.8" opacity="0.45"/>
+          <circle cx="40" cy="40" r="23" stroke="#7c6fff" stroke-width="0.8" opacity="0.55"/>
+          <circle cx="40" cy="40" r="17" stroke="#7c6fff" stroke-width="0.6" opacity="0.3"/>
+          <g filter="url(#sbGlow)" opacity="0.5">
+            <line x1="22" y1="28" x2="40" y2="50" stroke="#7c6fff" stroke-width="6" stroke-linecap="round"/>
+            <line x1="58" y1="28" x2="40" y2="50" stroke="#7c6fff" stroke-width="6" stroke-linecap="round"/>
+          </g>
+          <line x1="22" y1="28" x2="40" y2="50" stroke="url(#sbV)" stroke-width="3" stroke-linecap="round"/>
+          <line x1="58" y1="28" x2="40" y2="50" stroke="url(#sbV)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="50" r="2.8" fill="#e0d8ff"/>
+          <circle cx="22" cy="28" r="1.8" fill="#bf7fff" opacity="0.8"/>
+          <circle cx="58" cy="28" r="1.8" fill="#bf7fff" opacity="0.8"/>
+        </svg>
+        <span>void</span>
+      </div>
+      <button id="newChatBtn" class="new-chat-btn" title="New Chat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchChats" placeholder="Search chats..." />
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="dashboard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="chat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chat
+      </button>
+    </nav>
+
+    <div class="chat-history-label">Recent Chats</div>
+    <div class="chat-list" id="chatList"></div>
+
+    <div class="sidebar-footer">
+      <button class="footer-btn" id="openSettings" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Settings
+      </button>
+      <div class="key-status-badge" id="keyStatusBadge">
+        <span class="status-dot"></span>
+        <span id="keyStatusText">1 key active</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MOBILE OVERLAY -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button id="menuToggle" class="menu-toggle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-center" id="topbarTitle">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="themePickerBtn" title="Theme">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20c-2.76 0-5-4.48-5-10s2.24-10 5-10z"/></svg>
+        </button>
+        <button class="icon-btn" id="clearChatBtn" title="Clear Chat" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- THEME PICKER PANEL -->
+    <div id="themePicker" class="theme-picker hidden">
+      <div class="theme-picker-title">Choose Theme</div>
+      <div class="theme-options">
+        <button class="theme-opt active" data-theme="nebula" title="Nebula">
+          <div class="theme-preview nebula-prev"></div>
+          <span>Nebula</span>
+        </button>
+        <button class="theme-opt" data-theme="void" title="Void">
+          <div class="theme-preview void-prev"></div>
+          <span>Void</span>
+        </button>
+        <button class="theme-opt" data-theme="obsidian" title="Obsidian">
+          <div class="theme-preview obsidian-prev"></div>
+          <span>Obsidian</span>
+        </button>
+        <button class="theme-opt" data-theme="aurora" title="Aurora">
+          <div class="theme-preview aurora-prev"></div>
+          <span>Aurora</span>
+        </button>
+        <button class="theme-opt" data-theme="crimson" title="Crimson">
+          <div class="theme-preview crimson-prev"></div>
+          <span>Crimson</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboardView" class="view active">
+      <div class="dashboard-scroll">
+        <div class="dash-hero">
+          <div class="dash-greeting" id="dashGreeting">Good morning</div>
+          <h2 class="dash-headline">What can I help you with?</h2>
+          <p class="dash-sub">Powered by Groq inference — responses in milliseconds</p>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-info">
+              <div class="stat-val" id="statChats">0</div>
+              <div class="stat-label">Total Chats</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-info">
+              <div class="stat-val" id="statMessages">0</div>
+              <div class="stat-label">Messages Sent</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔑</div>
+            <div class="stat-info">
+              <div class="stat-val" id="statKeys">0</div>
+              <div class="stat-label">API Keys</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🚀</div>
+            <div class="stat-info">
+              <div class="stat-val" id="statTokens">0</div>
+              <div class="stat-label">Tokens Used</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section-title">Quick Start</div>
+        <div class="prompt-cards">
+          <div class="prompt-card" data-prompt="Explain quantum entanglement in simple terms">
+            <div class="pcard-icon">🔭</div>
+            <div class="pcard-text">Explain quantum entanglement</div>
+          </div>
+          <div class="prompt-card" data-prompt="Write a Python function to sort a list of dictionaries by multiple keys">
+            <div class="pcard-icon">🐍</div>
+            <div class="pcard-text">Python dict sorting helper</div>
+          </div>
+          <div class="prompt-card" data-prompt="Draft a professional email declining a job offer politely">
+            <div class="pcard-icon">✉️</div>
+            <div class="pcard-text">Decline a job offer gracefully</div>
+          </div>
+          <div class="prompt-card" data-prompt="Give me a 7-day workout plan for building muscle at home with no equipment">
+            <div class="pcard-icon">💪</div>
+            <div class="pcard-text">7-day home workout plan</div>
+          </div>
+          <div class="prompt-card" data-prompt="What are the most important concepts in modern machine learning?">
+            <div class="pcard-icon">🧠</div>
+            <div class="pcard-text">Modern ML concepts overview</div>
+          </div>
+          <div class="prompt-card" data-prompt="Write a short sci-fi story set on a Mars colony in 2150">
+            <div class="pcard-icon">🚀</div>
+            <div class="pcard-text">Sci-fi Mars colony story</div>
+          </div>
+        </div>
+
+        <div class="dash-section-title">Recent Chats</div>
+        <div class="recent-chats-grid" id="recentChatsGrid">
+          <div class="empty-recent">No chats yet — start one above!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT VIEW -->
+    <div id="chatView" class="view">
+      <div class="chat-model-bar">
+        <div class="model-indicator">
+          <span class="model-dot"></span>
+          <select id="chatModelSelect" class="chat-model-select">
+            <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+            <option value="llama-3.1-8b-instant">Llama 3.1 8B ⚡</option>
+            <option value="llama3-70b-8192">Llama 3 70B</option>
+            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+            <option value="gemma2-9b-it">Gemma 2 9B</option>
+            <option value="llama-3.2-11b-vision-preview">Llama 3.2 11B 👁️</option>
+            <option value="llama-3.2-90b-vision-preview">Llama 3.2 90B 👁️</option>
+          </select>
+        </div>
+        <div class="token-counter" id="tokenCounter">0 tokens</div>
+      </div>
+
+      <div class="messages-container" id="messagesContainer">
+        <div class="chat-empty-state" id="chatEmptyState">
+          <div class="empty-aura">
+            <svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="emBg" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#141425"/><stop offset="100%" stop-color="#08080f"/>
+                </radialGradient>
+                <radialGradient id="emGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#7c6fff" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#7c6fff" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="emF" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2.5" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <linearGradient id="emV" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#d4ccff"/><stop offset="100%" stop-color="#bf7fff"/>
+                </linearGradient>
+              </defs>
+              <circle cx="40" cy="40" r="39" fill="url(#emBg)"/>
+              <circle cx="40" cy="40" r="39" fill="url(#emGlow)"/>
+              <circle cx="40" cy="40" r="35" stroke="#7c6fff" stroke-width="0.6" opacity="0.2"/>
+              <circle cx="40" cy="40" r="30" stroke="#7c6fff" stroke-width="0.7" opacity="0.35"/>
+              <circle cx="40" cy="40" r="25" stroke="#7c6fff" stroke-width="0.8" opacity="0.50"/>
+              <circle cx="40" cy="40" r="20" stroke="#7c6fff" stroke-width="0.7" opacity="0.35"/>
+              <circle cx="40" cy="40" r="15" stroke="#7c6fff" stroke-width="0.5" opacity="0.2"/>
+              <g filter="url(#emF)" opacity="0.5">
+                <line x1="22" y1="28" x2="40" y2="50" stroke="#7c6fff" stroke-width="5" stroke-linecap="round"/>
+                <line x1="58" y1="28" x2="40" y2="50" stroke="#7c6fff" stroke-width="5" stroke-linecap="round"/>
+              </g>
+              <line x1="22" y1="28" x2="40" y2="50" stroke="url(#emV)" stroke-width="2.8" stroke-linecap="round"/>
+              <line x1="58" y1="28" x2="40" y2="50" stroke="url(#emV)" stroke-width="2.8" stroke-linecap="round"/>
+              <circle cx="40" cy="50" r="5" fill="#7c6fff" opacity="0.25"/>
+              <circle cx="40" cy="50" r="2.5" fill="#e0d8ff"/>
+              <circle cx="22" cy="28" r="1.8" fill="#bf7fff" opacity="0.8"/>
+              <circle cx="58" cy="28" r="1.8" fill="#bf7fff" opacity="0.8"/>
+              <circle cx="40" cy="40" r="38.5" stroke="#7c6fff" stroke-width="0.5" opacity="0.25"/>
+            </svg>
+          </div>
+          <p>Start a conversation</p>
+        </div>
+      </div>
+
+      <div class="input-zone">
+        <div class="image-preview-strip" id="imagePreviewStrip" style="display:none"></div>
+        <div class="input-bar">
+          <button class="input-action-btn" id="attachImageBtn" title="Attach Image">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><polyline points="21 15 16 10 5 21"/></svg>
+          </button>
+          <input type="file" id="imageFileInput" accept="image/*" style="display:none" multiple />
+          <textarea id="chatInput" placeholder="Message void..." rows="1"></textarea>
+          <button class="send-btn" id="sendBtn" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <div class="input-footer">
+          <span class="input-hint">Shift+Enter for new line · void can make mistakes</span>
+          <button class="stop-btn hidden" id="stopBtn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            Stop
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Settings</h2>
+      <button class="modal-close" id="closeSettings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-section">
+        <h3>API Keys</h3>
+        <p class="settings-hint">Multiple keys enable automatic rotation when one hits a rate limit.</p>
+        <div id="settingsKeyList" class="settings-key-list"></div>
+        <button class="settings-add-key" id="settingsAddKey">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Key
+        </button>
+      </div>
+
+      <div class="settings-section">
+        <h3>Model Defaults</h3>
+        <div class="settings-row">
+          <label>Default Model</label>
+          <select id="settingsModel" class="settings-select">
+            <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile</option>
+            <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant ⚡</option>
+            <option value="llama3-70b-8192">Llama 3 70B</option>
+            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+            <option value="gemma2-9b-it">Gemma 2 9B</option>
+            <option value="llama-3.2-11b-vision-preview">Llama 3.2 11B Vision</option>
+            <option value="llama-3.2-90b-vision-preview">Llama 3.2 90B Vision</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <label>Temperature <span id="tempVal">0.7</span></label>
+          <input type="range" id="tempSlider" min="0" max="2" step="0.1" value="0.7" class="settings-range" />
+        </div>
+        <div class="settings-row">
+          <label>Max Tokens</label>
+          <input type="number" id="maxTokens" value="2048" min="256" max="32768" class="settings-input" />
+        </div>
+        <div class="settings-row toggle-row">
+          <label>Streaming Responses</label>
+          <label class="toggle">
+            <input type="checkbox" id="streamToggle" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="settings-row toggle-row">
+          <label>System Prompt</label>
+        </div>
+        <textarea id="systemPrompt" class="settings-textarea" placeholder="You are a helpful AI assistant...">You are void, a highly intelligent and helpful AI assistant powered by Groq. You are concise, accurate, and thoughtful.</textarea>
+      </div>
+
+      <div class="settings-section">
+        <h3>Data</h3>
+        <div class="settings-actions">
+          <button class="settings-btn danger" id="clearAllData">Clear All Data</button>
+          <button class="settings-btn" id="exportData">Export Chats</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- INSTALL PROMPT -->
+<div id="installBanner" class="install-banner hidden">
+  <div class="install-content">
+    <svg width="22" height="22" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="39" fill="#141425"/><circle cx="40" cy="40" r="29" stroke="#7c6fff" stroke-width="1" opacity="0.5"/><line x1="22" y1="28" x2="40" y2="50" stroke="#d4ccff" stroke-width="3" stroke-linecap="round"/><line x1="58" y1="28" x2="40" y2="50" stroke="#bf7fff" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="50" r="2.5" fill="#e0d8ff"/></svg>
+    <span>Install void for the best experience</span>
+  </div>
+  <div class="install-btns">
+    <button id="installBtn" class="install-accept">Install</button>
+    <button id="dismissInstall" class="install-dismiss">Later</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
