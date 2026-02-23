@@ -1,4 +1,4 @@
-# AURA AI — Next-Gen Chat Interface
+# void AI — Next-Gen Chat Interface
 
 > A blazing-fast, beautiful AI chatbot powered by [Groq](https://groq.com) with 5 dark themes, multimodal support, and PWA installability.
 
